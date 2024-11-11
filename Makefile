@@ -23,6 +23,11 @@ INCLUDE	:= -I./include \
 	   -I./include/configs \
 
 SOURCES := arch/riscv/cpu/riscv64/boot0_entry.S \
+	   arch/riscv/cpu/riscv64/arch_timer.c \
+	   board/sun20iw1p1/sun20iw1p1/clock.c \
+	   common/iobase_sunxi.c \
+	   common/console.c \
+	   drivers/pinmux.c \
 	   drivers/serial.c \
 	   main/boot0_head.c \
 	   main/boot0_main.c \
@@ -40,7 +45,6 @@ all: $(TARGET).elf
 
 $(TARGET).elf: $(OBJS)
 	@echo "Link all, Create ELF file $(OUT_DIR)/$@"
-	@echo $(OBJO)
 	@$(CC) $(INCLUDE) $(CFLAGS) $(LIBS) $(OBJO) -o $(OUT_DIR)/$@ \
 		-T$(LD_FILE) -Wl,-Map=$(OUT_DIR)/$(TARGET).map
 	@$(OBJSIZE) $(OUT_DIR)/$@
