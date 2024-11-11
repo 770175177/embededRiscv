@@ -11,6 +11,7 @@ OBJCOPY		:= $(COMPILER_PREFIX)objcopy
 OBJSIZE		:= $(COMPILER_PREFIX)size
 
 CFLAGS	:= -g \
+	   -Os \
 	   -nostdlib \
 
 DEFINE	:= -D__KERNEL__ \
