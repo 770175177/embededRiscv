@@ -41,9 +41,11 @@ DIRS	:= $(dir $(OBJO))
 $(shell for dir in $(DIRS); do if [ ! -d $$dir ]; then mkdir -p $$dir; fi done)
 
 all: $(TARGET).elf
-	@echo "curr $(PWD)"
+	@$(OBJDUMP) -d $(OUT_DIR)/$(TARGET).elf > $(OUT_DIR)/$(TARGET).asm
+	@$(OBJCOPY) -O binary -S $(OUT_DIR)/$< $(OUT_DIR)/$(TARGET).bin
 
 $(TARGET).elf: $(OBJS)
+	@echo "Current Directory $(PWD)"
 	@echo "Link all, Create ELF file $(OUT_DIR)/$@"
 	@$(CC) $(INCLUDE) $(CFLAGS) $(LIBS) $(OBJO) -o $(OUT_DIR)/$@ \
 		-T$(LD_FILE) -Wl,-Map=$(OUT_DIR)/$(TARGET).map
