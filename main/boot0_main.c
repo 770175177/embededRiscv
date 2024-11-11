@@ -7,11 +7,11 @@
 #include <common.h>
 #include <private_boot0.h>
 #include <private_uboot.h>
-#include <private_toc.h>
+// #include <private_toc.h>
 #include <arch/clock.h>
 #include <arch/uart.h>
-#include <arch/dram.h>
-#include <arch/rtc.h>
+// #include <arch/dram.h>
+// #include <arch/rtc.h>
 #include <arch/gpio.h>
 
 static void print_commit_log(void)

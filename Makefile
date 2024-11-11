@@ -10,7 +10,10 @@ OBJDUMP		:= $(COMPILER_PREFIX)objdump
 OBJCOPY		:= $(COMPILER_PREFIX)objcopy
 OBJSIZE		:= $(COMPILER_PREFIX)size
 
-CFLAGS	:= -g
+CFLAGS	:= -g \
+	   -nostdlib \
+
+DEFINE	:= -D__KERNEL__ \
 
 LIBS	:=
 
@@ -24,24 +27,30 @@ SOURCES := arch/riscv/cpu/riscv64/boot0_entry.S \
 	   main/boot0_head.c \
 	   main/boot0_main.c \
 
-OBJS	:= $(patsubst %.c,%.o,$(patsubst %.s,%.o,$(SOURCES)))
+CFLAGS	+= $(DEFINE)
+
+OBJS	:= $(patsubst %.c,%.o,$(patsubst %.S,%.o,$(SOURCES)))
 OBJO	:= $(patsubst %.o,$(OUT_DIR)/%.o,$(OBJS))
 DIRS	:= $(dir $(OBJO))
 
 $(shell for dir in $(DIRS); do if [ ! -d $$dir ]; then mkdir -p $$dir; fi done)
 
 all: $(TARGET).elf
-	echo "curr $(PWD)"
+	@echo "curr $(PWD)"
 
 $(TARGET).elf: $(OBJS)
-	@echo "Create bin file $(OUT_DIR)/$(TARGET).bin"
+	@echo "Link all, Create ELF file $(OUT_DIR)/$@"
+	@echo $(OBJO)
+	@$(CC) $(INCLUDE) $(CFLAGS) $(LIBS) $(OBJO) -o $(OUT_DIR)/$@ \
+		-T$(LD_FILE) -Wl,-Map=$(OUT_DIR)/$(TARGET).map
+	@$(OBJSIZE) $(OUT_DIR)/$@
 
 %.o: %.c
-	@echo "Create Object $(OUT_DIR)/$@"
+	@echo "Create C Object $(OUT_DIR)/$@"
 	@$(CC) $(INCLUDE) $(CFLAGS) -c $< -o $(OUT_DIR)/$@
 
 %.o: %.S
-	@echo "Create Object $(OUT_DIR)/$@"
+	@echo "Create S Object $(OUT_DIR)/$@"
 	@$(CC) $(INCLUDE) $(CFLAGS) -c $< -o $(OUT_DIR)/$@
 
 .PHONY:

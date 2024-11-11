@@ -8,12 +8,12 @@ SECTIONS
 
 	.head   :
 	{
-		main/boot0_head.o	(.rodata)
+		out/main/boot0_head.o	(.rodata)
 	}
     . = ALIGN(1);
 	.text :
 	{
-		arch/riscv/cpu/riscv64/boot0_entry.o (.text)
+		out/arch/riscv/cpu/riscv64/boot0_entry.o (.text)
 		*(.text)
 	}
 	. = ALIGN(16);

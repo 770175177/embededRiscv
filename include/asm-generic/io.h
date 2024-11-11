@@ -8,7 +8,7 @@
 
 #ifndef __ASM_GENERIC_IO_H__
 #define __ASM_GENERIC_IO_H__
-#include <asm/types.h>
+
 /*
  * This file should be included at the end of each architecture-specific
  * asm/io.h such that we may provide generic implementations without

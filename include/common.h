@@ -41,7 +41,7 @@ void print_sys_tick(void);
 int sunxi_set_printf_debug_mode(u8 debug_level, u8 to_uboot);
 u8 sunxi_get_printf_debug_mode(void);
 u8 sunxi_get_debug_mode_for_uboot(void);
-void puts(const char *s);
+int puts(const char *s);
 int printf(const char *fmt, ...);
 void ndump(u8 *buf, int count);
 void __assert_fail(const char *assertion, const char *file, unsigned line,
@@ -111,8 +111,8 @@ char* strstr(const char *s1,const char *s2);
 void* memchr(const void *s, int c, size_t n);
 
 int malloc_init(u32 start, u32 size);
-void* malloc(u32 size);
-void* realloc(void *p, u32 size);
+void* malloc(size_t size);
+void* realloc(void *p, size_t size);
 void  free(void *p);
 
 
